@@ -1,6 +1,6 @@
 # cinemalis-api
 
-https://backendtzul.rj.r.appspot.com/
+https://cinemalis-342015.rj.r.appspot.com/
 
 Rutas públicas:
   
