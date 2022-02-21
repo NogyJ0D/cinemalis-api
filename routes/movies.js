@@ -1,7 +1,7 @@
 const express = require('express')
 const Movies = require('../services/movies')
 const { isEditor } = require('../middleware/auth')
-const isMyMovie = require('../middleware/isMyMovie')
+const { isMyMovie } = require('../middleware/isMine')
 
 const movies = app => {
   const router = express.Router()
@@ -13,14 +13,14 @@ const movies = app => {
     const movie = await moviesServices.get(id)
 
     if (movie.err) return res.status(404).json({ success: false, movie })
-    else return res.status(200).json({ success: true, movie })
+    else return res.status(200).json({ movie })
   })
 
   router.get('/', async (req, res) => {
     const movies = await moviesServices.getAll()
 
     if (movies.err) return res.status(404).json({ success: false, movies })
-    else return res.status(200).json({ success: true, movies })
+    else return res.status(200).json(movies)
   })
 
   router.get('/last/:date', async (req, res) => {
@@ -28,7 +28,7 @@ const movies = app => {
     const movies = await moviesServices.getLast(date)
 
     if (movies.err) return res.status(404).json({ success: false, movies })
-    else return res.status(200).json({ success: true, movies })
+    else return res.status(200).json(movies)
   })
 
   router.get('/ranking/:sorter', async (req, res) => {
@@ -36,7 +36,7 @@ const movies = app => {
     const movies = await moviesServices.getRanking10(sorter)
 
     if (movies.err) return res.status(404).json({ success: false, movies })
-    else return res.status(200).json({ success: true, movies })
+    else return res.status(200).json(movies)
   })
 
   router.get('/editor/:id', isEditor, async (req, res) => {
@@ -44,14 +44,14 @@ const movies = app => {
     const movies = await moviesServices.getByEditorId(id)
 
     if (movies.err) return res.status(400).json({ success: false, movies })
-    else return res.status(200).json({ success: true, movies })
+    else return res.status(200).json(movies)
   })
 
   router.post('/create', isEditor, async (req, res) => {
     const movie = await moviesServices.create(req.body)
 
     if (movie.err) return res.status(400).json({ success: false, movie })
-    else return res.status(201).json({ success: true, movie })
+    else return res.status(201).json(movie)
   })
 
   router.put('/:movie/:editor', isEditor, isMyMovie, async (req, res) => {
@@ -59,7 +59,7 @@ const movies = app => {
     const updatedMovie = await moviesServices.update(movie, editor, req.body)
 
     if (updatedMovie.err) return res.status(403).json({ success: false, updatedMovie })
-    else return res.status(200).json({ success: true, updatedMovie })
+    else return res.status(200).json(updatedMovie)
   })
 
   router.delete('/:id', isEditor, async (req, res) => {
@@ -67,7 +67,7 @@ const movies = app => {
     const movie = await moviesServices.delete(id)
 
     if (movie.err) return res.status(400).json({ success: false, movie })
-    else return res.status(200).json({ success: true, movie })
+    else return res.status(200).json(movie)
   })
 }
 

@@ -36,7 +36,7 @@ function auth (app) {
           secure: true,
           sameSite: 'none'
         })
-        .json({ success: true, response })
+        .json(response)
     }
   })
 
@@ -53,7 +53,7 @@ function auth (app) {
           secure: true,
           sameSite: 'none'
         })
-        .json({ success: true, response })
+        .json(response)
     }
   })
 

@@ -10,9 +10,13 @@ const isMyMovie = (req, res, next) => {
   else return res.status(401).json({ success: false, message: 'No sos el editor de esta película.' })
 }
 
-module.exports = isMyMovie
+const isMyReview = (req, res, next) => {
+  const { userId } = req.body
+  const token = req.cookies.token
+  const decoded = jwt.verify(token, jwtSecret)
 
-/*
-  RESUMEN:
-    El id de la película a editar y el id del usuario se pasan mediante la request. Entonces, si el id del usuario dentro del token (que no puede falsearse porque está firmado por el secreto) es igual al id que se está pasando, se puede editar la película porque no es ningún crackeo.
-*/
+  if (userId === decoded.id) return next()
+  else return res.status(401).json({ success: false, message: 'No sos el dueño de esta reseña.' })
+}
+
+module.exports = { isMyMovie, isMyReview }

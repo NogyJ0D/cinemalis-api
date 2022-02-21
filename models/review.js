@@ -8,7 +8,7 @@ const reviewSchema = mongoose.model(
     userId: { type: String, required: true },
     text: { type: String, required: true },
     rating: { type: Number, required: true, default: 0 },
-    date: { type: Date, default: Date.now },
+    date: { type: Date, default: Date.now }, // Automático
     movieId: { type: String, required: true },
     movieName: { type: String, required: true }
   })
