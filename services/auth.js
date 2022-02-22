@@ -21,7 +21,7 @@ class Auth {
         id: user._id
       }
       const token = jwt.sign(dataShowed, jwtSecret, { expiresIn: '1d' })
-      return { success: true, dataShowed, token }
+      return { dataShowed, token }
     } else return { success: false, message: 'Las credenciales no coinciden.' }
   }
 
@@ -32,7 +32,7 @@ class Auth {
       const decoded = jwt.verify(cookies.token, jwtSecret)
       const userData = { userName: decoded.userName, email: decoded.email, role: decoded.role, id: decoded.id }
       const newToken = jwt.sign(userData, jwtSecret, { expiresIn: '1d' })
-      return { success: true, userData, newToken }
+      return { userData, newToken }
     } catch (err) {
       return { success: false, status: 'Expirado', message: 'Se requiere un token válido para este proceso.' }
     }
@@ -59,7 +59,7 @@ class Auth {
       }
       const token = jwt.sign(dataShowed, jwtSecret, { expiresIn: '1d' })
 
-      return { success: true, dataShowed, token }
+      return { dataShowed, token }
     }
   }
 }

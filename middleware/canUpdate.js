@@ -2,12 +2,15 @@ const jwt = require('jsonwebtoken')
 const { jwtSecret } = require('../config')
 
 const canUpdateRole = (req, res, next) => {
-  const { role } = req.body.role ? req.body.role : undefined
+  const { role } = req.body
   const token = req.cookies.token
   const decoded = jwt.verify(token, jwtSecret)
 
-  if (role < decoded.role) return next()
-  else return res.status(401).json({ success: false, message: 'No podés cambiar un rol superior al tuyo.' })
+  const noRole = role === undefined
+  const canChangeRole = role < decoded.role
+
+  if (noRole || canChangeRole) return next()
+  else return res.status(401).json({ success: false, message: 'No puedes cambiar un rol superior al tuyo.' })
 }
 
 module.exports = { canUpdateRole }
