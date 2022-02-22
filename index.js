@@ -17,11 +17,7 @@ const app = express()
 
 // Global Middlewares
 app.use(express.json())
-app.use(
-  cors({
-    origin: ['*']
-  })
-)
+app.use(cors())
 app.use(cookies())
 
 // Usar las rutas
