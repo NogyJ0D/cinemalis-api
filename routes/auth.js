@@ -10,7 +10,7 @@ function auth (app) {
     const { email, password } = req.body
     const response = await authService.login(email, password)
 
-    if (response.success === false) return res.status(401).json({ success: false, response })
+    if (response.success === false) return res.status(401).json({ failed: true, response })
     else {
       return res
         .status(200)
@@ -27,7 +27,7 @@ function auth (app) {
     const cookies = req.cookies
     const response = await authService.tokenLogin(cookies)
 
-    if (response.success === false) return res.json({ success: false, response })
+    if (response.success === false) return res.json({ failed: true, response })
     else {
       return res
         .status(200)
@@ -44,7 +44,7 @@ function auth (app) {
     const user = req.body
     const response = await authService.signup(user)
 
-    if (response.success === false) return res.status(403).json({ success: false, response })
+    if (response.success === false) return res.status(403).json({ failed: true, response })
     else {
       return res
         .status(200)

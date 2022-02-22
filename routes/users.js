@@ -11,14 +11,14 @@ const users = app => {
   router.get('/', isAdmin, async (req, res) => {
     const users = await usersServices.getAll()
 
-    if (users.err) return res.send(404).json({ success: false, users })
+    if (users.err) return res.send(404).json({ failed: true, users })
     else return res.status(200).json(users)
   })
   router.get('/:id', async (req, res) => {
     const { id } = req.params
     const user = await usersServices.get(id)
 
-    if (user.err) return res.status(404).json({ success: false, user })
+    if (user.err) return res.status(404).json({ failed: true, user })
     else return res.status(200).json(user)
   })
 
@@ -26,7 +26,7 @@ const users = app => {
     const { id } = req.params
     const user = await usersServices.update(id, req.body)
 
-    if (user.err) return res.status(40).json({ success: false, user })
+    if (user.err) return res.status(40).json({ failed: true, user })
     else return res.status(200).json(user)
   })
 
@@ -34,7 +34,7 @@ const users = app => {
     const { id } = req.params
     const user = await usersServices.delete(id)
 
-    if (user.err) return res.status(400).json({ success: false, user })
+    if (user.err) return res.status(400).json({ failed: true, user })
     else return res.status(200).json(user)
   })
 }

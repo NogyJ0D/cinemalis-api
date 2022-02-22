@@ -12,14 +12,14 @@ const movies = app => {
     const { id } = req.params
     const movie = await moviesServices.get(id)
 
-    if (movie.err) return res.status(404).json({ success: false, movie })
-    else return res.status(200).json({ movie })
+    if (movie.err) return res.status(404).json({ failed: true, movie })
+    else return res.status(200).json(movie)
   })
 
   router.get('/', async (req, res) => {
     const movies = await moviesServices.getAll()
 
-    if (movies.err) return res.status(404).json({ success: false, movies })
+    if (movies.err) return res.status(404).json({ failed: true, movies })
     else return res.status(200).json(movies)
   })
 
@@ -27,7 +27,7 @@ const movies = app => {
     const { date } = req.params
     const movies = await moviesServices.getLast(date)
 
-    if (movies.err) return res.status(404).json({ success: false, movies })
+    if (movies.err) return res.status(404).json({ failed: true, movies })
     else return res.status(200).json(movies)
   })
 
@@ -35,7 +35,7 @@ const movies = app => {
     const { sorter } = req.params
     const movies = await moviesServices.getRanking10(sorter)
 
-    if (movies.err) return res.status(404).json({ success: false, movies })
+    if (movies.err) return res.status(404).json({ failed: true, movies })
     else return res.status(200).json(movies)
   })
 
@@ -43,14 +43,14 @@ const movies = app => {
     const { id } = req.params
     const movies = await moviesServices.getByEditorId(id)
 
-    if (movies.err) return res.status(400).json({ success: false, movies })
+    if (movies.err) return res.status(400).json({ failed: true, movies })
     else return res.status(200).json(movies)
   })
 
   router.post('/create', isEditor, async (req, res) => {
     const movie = await moviesServices.create(req.body)
 
-    if (movie.err) return res.status(400).json({ success: false, movie })
+    if (movie.err) return res.status(400).json({ failed: true, movie })
     else return res.status(201).json(movie)
   })
 
@@ -58,7 +58,7 @@ const movies = app => {
     const { movie, editor } = req.params
     const updatedMovie = await moviesServices.update(movie, editor, req.body)
 
-    if (updatedMovie.err) return res.status(403).json({ success: false, updatedMovie })
+    if (updatedMovie.err) return res.status(403).json({ failed: true, updatedMovie })
     else return res.status(200).json(updatedMovie)
   })
 
@@ -66,7 +66,7 @@ const movies = app => {
     const { id } = req.params
     const movie = await moviesServices.delete(id)
 
-    if (movie.err) return res.status(400).json({ success: false, movie })
+    if (movie.err) return res.status(400).json({ failed: true, movie })
     else return res.status(200).json(movie)
   })
 }

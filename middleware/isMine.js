@@ -11,10 +11,11 @@ const isMyMovie = (req, res, next) => {
 }
 
 const isMyReview = (req, res, next) => {
-  const { userId } = req.body
+  const { userId } = req.params
   const token = req.cookies.token
   const decoded = jwt.verify(token, jwtSecret)
 
+  console.log(userId, decoded.id)
   if (userId === decoded.id) return next()
   else return res.status(401).json({ success: false, message: 'No sos el dueño de esta reseña.' })
 }
